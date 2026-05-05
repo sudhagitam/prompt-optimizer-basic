@@ -1,0 +1,47 @@
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&family=Geist:wght@300;400;500;600&display=swap');
+
+:root {
+  --paper: #f5f0e8;
+  --paper-dark: #ede7d9;
+  --paper-mid: #f0ead8;
+  --ink: #1a1a1a;
+  --ink-light: #6b6560;
+  --ink-faint: #a8a09a;
+  --teal: #2d8c7e;
+  --teal-light: #e0f0ed;
+  --black: #111111;
+  --border: rgba(0, 0, 0, 0.12);
+  --border-wavy: rgba(0, 0, 0, 0.09);
+  --chip-active: #111;
+  --chip-active-text: #fff;
+  --shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  min-height: 100vh;
+  font-family: 'Geist', 'Helvetica Neue', sans-serif;
+}
+
+body {
+  background: #ddd8ce;
+  background-image: radial-gradient(
+      ellipse at 20% 20%,
+      rgba(180, 170, 150, 0.3) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse at 80% 80%,
+      rgba(160, 150, 130, 0.2) 0%,
+      transparent 60%
+    );
+  padding: 32px 16px 64px;
+}
