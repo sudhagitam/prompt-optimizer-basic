@@ -115,7 +115,7 @@ export default function Home() {
       <div className={styles.page}>
         {/* Header */}
         <header className={styles.header}>
-          <h1 className={styles.h1}>PromptStudio</h1>
+          <h1 className={styles.h1}>Prompt Studio</h1>
           <p className={styles.subtitle}>User Concept</p>
           <div className={styles.modelBadge}>● Groq · Llama 3.3 70B</div>
         </header>
