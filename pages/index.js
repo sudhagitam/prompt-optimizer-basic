@@ -166,7 +166,7 @@ export default function Home() {
           <textarea
             className={styles.textarea}
             rows={5}
-            maxLength={500}
+            maxLength={1500}
             placeholder="type your prompt/task here..."
             value={input}
             onChange={(e) => setInput(e.target.value)}
