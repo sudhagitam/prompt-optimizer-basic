@@ -150,8 +150,8 @@ export default function Home() {
       >
         {/* Header */}
         <motion.header className={styles.header} variants={itemVariants}>
-          <h1 className={styles.h1}>Prompt Studio</h1>
-          <p className={styles.subtitle}>Ultra-fast optimization powered by Groq</p>
+          <h1 className={styles.h1}>PromptUP</h1>
+          <p className={styles.subtitle}>AI-powered prompt(Save tokens-Save time -Better results)</p>
           <div className={styles.badge}>
             <Sparkles size={16} />
             Groq • Llama 3.3 70B
