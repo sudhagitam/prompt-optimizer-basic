@@ -150,7 +150,7 @@ export default function Home() {
       >
         {/* Header */}
         <motion.header className={styles.header} variants={itemVariants}>
-          <h1 className={styles.h1}>PromptUP</h1>
+          <h1 className={styles.h1}>PromptUp</h1>
           <p className={styles.subtitle}>Save Tokens-Save Time-Better results</p>
           <div className={styles.badge}>
             <Sparkles size={16} />
@@ -161,13 +161,13 @@ export default function Home() {
         {/* Step 1 - Input */}
         <motion.div className={styles.card} variants={itemVariants}>
           <label style={{ display: "block", marginBottom: "12px", fontSize: "0.9rem", fontWeight: "600" }}>
-            What do you want the AI to do?
+            Your initial prompt or task description
           </label>
           <textarea
             className={styles.textarea}
             rows={5}
             maxLength={500}
-            placeholder="Describe your task in detail..."
+            placeholder="type your prompt/task here..."
             value={input}
             onChange={(e) => setInput(e.target.value)}
           />
