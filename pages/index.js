@@ -17,9 +17,9 @@ const TASKS = ["Code", "UI gen", "Debugging", "Writing", "Research", "Email"];
 const MODELS = [
   { value: "llama-3.3-70b-versatile", label: "Llama 3.3 70B" },
   { value: "llama-3.1-8b-instant", label: "Llama 3.1 8B Instant" },
-  { value: "mixtral-8x7b-32768", label: "Mixtral 8x7B" },
-  { value: "gemma2-9b-it", label: "Gemma 2 9B" },
-  { value: "deepseek-r1-distill-llama-70b", label: "DeepSeek R1 70B" },
+  //{ value: "mixtral-8x7b-32768", label: "Mixtral 8x7B" },
+  //{ value: "gemma2-9b-it", label: "Gemma 2 9B" },
+  //{ value: "deepseek-r1-distill-llama-70b", label: "DeepSeek R1 70B" },
 ];
 const OUTPUT_STYLES = [
   { value: "ask", label: "Ask (single-turn)" },
