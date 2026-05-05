@@ -123,7 +123,7 @@ export default function Home() {
         {/* Step 1 - Input */}
         <div className={styles.card} style={{ paddingTop: 28 }}>
           <div className={styles.stepNum}>1</div>
-          //<div className={styles.stepLabel}>single-focused entry</div>
+          <div className={styles.stepLabel}>single-focused entry</div>
           <textarea
             className={`${styles.textarea} ${styles.ruled}`}
             rows={4}
