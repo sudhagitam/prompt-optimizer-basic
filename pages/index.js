@@ -181,7 +181,7 @@ export default function Home() {
               whileTap={{ scale: 0.95 }}
             >
               <Zap size={18} />
-              Optimize Now
+              Optimize
             </motion.button>
           </div>
         </motion.div>
