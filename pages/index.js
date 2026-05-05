@@ -74,6 +74,7 @@ export default function Home() {
   const [error, setError] = useState("");
   const [copied, setCopied] = useState(false);
   const loadingIntervalRef = useRef(null);
+  const pageRef = useRef(null);
 
   const startLoadingMessages = () => {
     let idx = 0;
@@ -131,6 +132,27 @@ export default function Home() {
     } catch {}
   };
 
+  const handleClear = async () => {
+    // Scroll to top with smooth animation
+    const inputCard = document.querySelector(`.${styles.card}`);
+    if (inputCard) {
+      inputCard.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    // Wait for scroll to start, then clear
+    setTimeout(() => {
+      setInput("");
+      setResult("");
+      setError("");
+      setCopied(false);
+      setLoading(false);
+      stopLoadingMessages();
+      
+      // Trigger optimization after clearing
+      runOptimize();
+    }, 300);
+  };
+
   const showResult = result || error;
 
   return (
@@ -172,17 +194,28 @@ export default function Home() {
             onChange={(e) => setInput(e.target.value)}
           />
           <div className={styles.textareaFooter}>
-            <span className={styles.charCount}>{input.length} / 500</span>
-            <motion.button
-              className={styles.btnOptimize}
-              onClick={() => runOptimize()}
-              disabled={loading || !input.trim()}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <Zap size={18} />
-              Optimize
-            </motion.button>
+            <span className={styles.charCount}>{input.length} / 1500</span>
+            <div className={styles.buttonGroup}>
+              <motion.button
+                className={styles.btnClear}
+                onClick={handleClear}
+                disabled={loading || !input.trim()}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                Clear
+              </motion.button>
+              <motion.button
+                className={styles.btnOptimize}
+                onClick={() => runOptimize()}
+                disabled={loading || !input.trim()}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <Zap size={18} />
+                Optimize
+              </motion.button>
+            </div>
           </div>
         </motion.div>
 

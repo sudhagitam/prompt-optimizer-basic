@@ -180,6 +180,12 @@
   font-family: 'JetBrains Mono', monospace;
 }
 
+.buttonGroup {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
 /* ── Button ── */
 .btnOptimize {
   background: var(--gradient-primary);
@@ -229,6 +235,56 @@
   opacity: 0.5;
   cursor: not-allowed;
 }
+
+.btnClear {
+  background: var(--bg-secondary);
+  border: 1.5px solid var(--border-light);
+  color: var(--text-secondary);
+  border-radius: 10px;
+  padding: 10px 20px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'Space Grotesk', sans-serif;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.btnClear::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: var(--gradient-secondary);
+  transition: left 0.3s ease;
+  z-index: -1;
+}
+
+.btnClear:hover {
+  border-color: var(--accent-purple);
+  color: var(--text-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 0 20px rgba(102, 126, 234, 0.2);
+}
+
+.btnClear:hover::before {
+  left: 0;
+}
+
+.btnClear:active {
+  transform: translateY(0);
+}
+
+.btnClear:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  border-color: var(--border-light);
+}
+
 
 /* ── Advanced Toggle ── */
 .advRow {
@@ -654,5 +710,19 @@
   .chip {
     padding: 8px 14px;
     font-size: 0.75rem;
+  }
+
+  .buttonGroup {
+    gap: 8px;
+  }
+
+  .btnOptimize,
+  .btnClear {
+    padding: 10px 16px;
+    font-size: 0.85rem;
+  }
+
+  .btnOptimize {
+    flex: 1;
   }
 }
