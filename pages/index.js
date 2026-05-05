@@ -1,5 +1,15 @@
 import { useState, useRef } from "react";
 import Head from "next/head";
+import { motion } from "framer-motion";
+import {
+  Zap,
+  Copy,
+  Check,
+  ChevronDown,
+  Sparkles,
+  Send,
+  Loading as LoaderIcon,
+} from "lucide-react";
 import styles from "../styles/Home.module.css";
 
 const GOALS = ["Maximize accuracy", "Minimize tokens", "Deterministic", "Creative"];
@@ -30,6 +40,26 @@ const REFINE_OPTIONS = [
   { label: "Add CoT", instruction: "Add chain of thought reasoning steps" },
   { label: "More specific", instruction: "Make it more specific and detailed" },
 ];
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.1,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, ease: "easeOut" },
+  },
+};
 
 export default function Home() {
   const [input, setInput] = useState("");
@@ -106,60 +136,80 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Prompt Optimizer</title>
-        <meta name="description" content="AI-powered prompt optimization tool" />
+        <title>Prompt Optimizer — Powered by Groq</title>
+        <meta name="description" content="AI-powered prompt optimization with ultra-fast Groq inference" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className={styles.page}>
+      <motion.div
+        className={styles.page}
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+      >
         {/* Header */}
-        <header className={styles.header}>
-          <h1 className={styles.h1}>Prompt Studio</h1>
-          <p className={styles.subtitle}>User Concept</p>
-          <div className={styles.modelBadge}>● Groq · Llama 3.3 70B</div>
-        </header>
+        <motion.header className={styles.header} variants={itemVariants}>
+          <h1 className={styles.h1}>Prompt Optimizer</h1>
+          <p className={styles.subtitle}>Ultra-fast optimization powered by Groq</p>
+          <div className={styles.badge}>
+            <Sparkles size={16} />
+            Groq • Llama 3.3 70B
+          </div>
+        </motion.header>
 
         {/* Step 1 - Input */}
-        <div className={styles.card} style={{ paddingTop: 28 }}>
+        <motion.div className={styles.card} variants={itemVariants}>
           <div className={styles.stepNum}>1</div>
-          <div className={styles.stepLabel}>single-focused entry</div>
+          <label style={{ display: "block", marginBottom: "12px", fontSize: "0.9rem", fontWeight: "600" }}>
+            What do you want the AI to do?
+          </label>
           <textarea
-            className={`${styles.textarea} ${styles.ruled}`}
-            rows={4}
+            className={styles.textarea}
+            rows={5}
             maxLength={500}
-            placeholder="What do you want the AI to do?"
+            placeholder="Describe your task in detail..."
             value={input}
             onChange={(e) => setInput(e.target.value)}
           />
           <div className={styles.textareaFooter}>
             <span className={styles.charCount}>{input.length} / 500</span>
-            <button
+            <motion.button
               className={styles.btnOptimize}
               onClick={() => runOptimize()}
               disabled={loading || !input.trim()}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
-              <span>↓</span> Optimize
-            </button>
+              <Zap size={18} />
+              Optimize Now
+            </motion.button>
           </div>
-        </div>
+        </motion.div>
 
         {/* Advanced toggle */}
-        <div className={styles.advRow}>
-          <button
+        <motion.div className={styles.advRow} variants={itemVariants}>
+          <motion.button
             className={`${styles.advToggle} ${advOpen ? styles.open : ""}`}
             onClick={() => setAdvOpen(!advOpen)}
             aria-expanded={advOpen}
+            whileHover={{ scale: 1.05 }}
           >
-            <span className={styles.arrow}>▼</span>
+            <ChevronDown size={16} />
             Advanced options
-          </button>
-          <span className={styles.advHiddenLabel}>—hidden by default</span>
-        </div>
+          </motion.button>
+          <span className={styles.advHiddenLabel}>—click to expand</span>
+        </motion.div>
 
         {/* Advanced panel */}
         {advOpen && (
-          <div className={styles.advPanel}>
+          <motion.div
+            className={styles.advPanel}
+            variants={itemVariants}
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+          >
             <div className={styles.advGrid}>
               <div className={styles.advField}>
                 <label>MODEL</label>
@@ -182,91 +232,116 @@ export default function Home() {
             <div className={styles.chipGroupLabel}>OPTIMIZATION GOAL</div>
             <div className={styles.chips}>
               {GOALS.map((g) => (
-                <button
+                <motion.button
                   key={g}
                   className={`${styles.chip} ${activeGoal === g ? styles.chipActive : ""}`}
                   onClick={() => setActiveGoal(g)}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
                 >
                   {g}
-                </button>
+                </motion.button>
               ))}
             </div>
 
             <div className={styles.chipGroupLabel}>TASK TYPE</div>
             <div className={styles.chips}>
               {TASKS.map((t) => (
-                <button
+                <motion.button
                   key={t}
                   className={`${styles.chip} ${activeTask === t ? styles.chipActive : ""}`}
                   onClick={() => setActiveTask(t)}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
                 >
                   {t}
-                </button>
+                </motion.button>
               ))}
             </div>
-            <p className={styles.chipsNote}>chips, not dropdowns — faster to scan</p>
-          </div>
+            <p className={styles.chipsNote}>Select one per section</p>
+          </motion.div>
         )}
 
         {/* Connector */}
-        <div className={styles.connector}>↓</div>
+        {(loading || showResult) && (
+          <motion.div className={styles.connector} variants={itemVariants}>
+            ↓
+          </motion.div>
+        )}
 
         {/* Step 2 - Loading */}
         {loading && (
-          <div className={styles.loadingCard}>
-            <div className={styles.spinner} />
+          <motion.div className={styles.loadingCard} variants={itemVariants}>
+            <motion.div
+              className={styles.spinner}
+              animate={{ rotate: 360 }}
+              transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+            />
             <span>{loadingMsg}</span>
-            <div className={styles.stepLabel} style={{ position: "absolute", top: 8, right: 14 }}>
-              loading state
-            </div>
-          </div>
+          </motion.div>
         )}
 
         {/* Step 3 - Result */}
         {showResult && !loading && (
-          <div className={styles.resultCard}>
+          <motion.div className={styles.resultCard} variants={itemVariants}>
             <div className={styles.resultHeader}>
               <div className={styles.resultHeaderLeft}>
                 <span className={styles.resultNum}>3</span>
                 <span className={styles.resultTitle}>OPTIMIZED PROMPT</span>
               </div>
-              <button className={styles.btnCopy} onClick={copyResult}>
-                {copied ? "✓ Copied!" : "⧉ Copy"}
-              </button>
+              <motion.button
+                className={styles.btnCopy}
+                onClick={copyResult}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                {copied ? (
+                  <>
+                    <Check size={16} />
+                    Copied!
+                  </>
+                ) : (
+                  <>
+                    <Copy size={16} />
+                    Copy
+                  </>
+                )}
+              </motion.button>
             </div>
-            {result && (
-              <pre className={styles.resultBody}>{result}</pre>
-            )}
-            {error && (
-              <div className={styles.errorText}>⚠ {error}</div>
-            )}
-            <p className={styles.resultNote}>monospaced result · full prompt shown</p>
-          </div>
+            {result && <pre className={styles.resultBody}>{result}</pre>}
+            {error && <div className={styles.errorText}>⚠ {error}</div>}
+            <p className={styles.resultNote}>Full prompt ready to use</p>
+          </motion.div>
         )}
 
         {/* Step 4 - Refine */}
         {result && !loading && (
-          <div className={styles.refineRow}>
+          <motion.div className={styles.refineRow} variants={itemVariants}>
             <span className={styles.refineLabel}>4 · Refine:</span>
             {REFINE_OPTIONS.map((r) => (
-              <button
+              <motion.button
                 key={r.label}
                 className={styles.chip}
                 onClick={() => runOptimize(r.instruction)}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
               >
                 {r.label}
-              </button>
+              </motion.button>
             ))}
-            <span className={styles.refineNote}>—tap refinements after result</span>
-          </div>
+            <span className={styles.refineNote}>—iterative improvements</span>
+          </motion.div>
         )}
 
-        {/* Insight box */}
-        <div className={styles.insightBox}>
-          <strong>Key insight: Show ONE field first. Hide everything else.</strong>
-          <p>Progressive disclosure → less cognitive load → more conversions.</p>
-        </div>
-      </div>
+        {/* Insight Box */}
+        <motion.div className={styles.insightBox} variants={itemVariants}>
+          <strong>✨ Pro Tip</strong>
+          <p>
+            Add specific context, examples, and constraints to your prompts. The more detailed your input,
+            the more refined your optimization will be.
+          </p>
+        </motion.div>
+      </motion.div>
     </>
   );
 }
