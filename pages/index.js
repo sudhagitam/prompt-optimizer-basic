@@ -136,7 +136,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Prompt Optimizer — Powered by Groq</title>
+        <title>PromptUp — Powered by Groq</title>
         <meta name="description" content="AI-powered prompt optimization with ultra-fast Groq inference" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
@@ -150,7 +150,7 @@ export default function Home() {
       >
         {/* Header */}
         <motion.header className={styles.header} variants={itemVariants}>
-          <h1 className={styles.h1}>Prompt Optimizer</h1>
+          <h1 className={styles.h1}>Prompt Studio</h1>
           <p className={styles.subtitle}>Ultra-fast optimization powered by Groq</p>
           <div className={styles.badge}>
             <Sparkles size={16} />
