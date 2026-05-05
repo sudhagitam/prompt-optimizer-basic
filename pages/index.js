@@ -5,9 +5,11 @@ import styles from "../styles/Home.module.css";
 const GOALS = ["Maximize accuracy", "Minimize tokens", "Deterministic", "Creative"];
 const TASKS = ["Code", "UI gen", "Debugging", "Writing", "Research", "Email"];
 const MODELS = [
-  { value: "claude-sonnet-4-20250514", label: "Claude Sonnet 4" },
-  { value: "claude-opus-4-20250514", label: "Claude Opus 4" },
-  { value: "claude-haiku-4-5-20251001", label: "Claude Haiku 4.5" },
+  { value: "llama-3.3-70b-versatile", label: "Llama 3.3 70B" },
+  { value: "llama-3.1-8b-instant", label: "Llama 3.1 8B Instant" },
+  { value: "mixtral-8x7b-32768", label: "Mixtral 8x7B" },
+  { value: "gemma2-9b-it", label: "Gemma 2 9B" },
+  { value: "deepseek-r1-distill-llama-70b", label: "DeepSeek R1 70B" },
 ];
 const OUTPUT_STYLES = [
   { value: "ask", label: "Ask (single-turn)" },
@@ -31,7 +33,7 @@ const REFINE_OPTIONS = [
 
 export default function Home() {
   const [input, setInput] = useState("");
-  const [model, setModel] = useState("claude-sonnet-4-20250514");
+  const [model, setModel] = useState("llama-3.3-70b-versatile");
   const [outputStyle, setOutputStyle] = useState("ask");
   const [activeGoal, setActiveGoal] = useState("Maximize accuracy");
   const [activeTask, setActiveTask] = useState("Code");
@@ -115,7 +117,7 @@ export default function Home() {
         <header className={styles.header}>
           <h1 className={styles.h1}>Prompt Optimizer</h1>
           <p className={styles.subtitle}>Redesign Concept</p>
-          <div className={styles.modelBadge}>● Claude · Sonnet 4</div>
+          <div className={styles.modelBadge}>● Groq · Llama 3.3 70B</div>
         </header>
 
         {/* Step 1 - Input */}

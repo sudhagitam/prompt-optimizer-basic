@@ -1,7 +1,7 @@
-import Anthropic from "@anthropic-ai/sdk";
+import Groq from "groq-sdk";
 
-const client = new Anthropic({
-  apiKey: process.env.ANTHROPIC_API_KEY,
+const client = new Groq({
+  apiKey: process.env.GROQ_API_KEY,
 });
 
 export default async function handler(req, res) {
@@ -15,10 +15,10 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: "Prompt is required" });
   }
 
-  if (!process.env.ANTHROPIC_API_KEY) {
+  if (!process.env.GROQ_API_KEY) {
     return res.status(500).json({
       error:
-        "ANTHROPIC_API_KEY is not configured. Add it to your Vercel environment variables.",
+        "GROQ_API_KEY is not configured. Add it to your Vercel environment variables.",
     });
   }
 
@@ -48,17 +48,19 @@ Rules:
     : `Optimize this prompt:\n\n"${prompt}"`;
 
   try {
-    const message = await client.messages.create({
-      model: model || "claude-sonnet-4-20250514",
+    const completion = await client.chat.completions.create({
+      model: model || "llama-3.3-70b-versatile",
       max_tokens: 1024,
-      system: systemPrompt,
-      messages: [{ role: "user", content: userMessage }],
+      messages: [
+        { role: "system", content: systemPrompt },
+        { role: "user", content: userMessage },
+      ],
     });
 
-    const result = message.content?.[0]?.text || "";
+    const result = completion.choices?.[0]?.message?.content || "";
     return res.status(200).json({ result });
   } catch (error) {
-    console.error("Anthropic API error:", error);
+    console.error("Groq API error:", error);
     return res.status(500).json({
       error: error.message || "Failed to optimize prompt",
     });

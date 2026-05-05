@@ -1,6 +1,16 @@
-# Prompt Optimizer
+# Prompt Optimizer — Groq Edition
 
-A beautifully designed AI prompt optimization tool with a paper/parchment aesthetic. Built with Next.js and Claude AI.
+A beautifully designed AI prompt optimization tool with a paper/parchment aesthetic. Built with Next.js and powered by **Groq** (Llama 3.3 70B, Mixtral, Gemma, DeepSeek).
+
+## Models Available
+
+| Model | ID |
+|---|---|
+| Llama 3.3 70B | `llama-3.3-70b-versatile` |
+| Llama 3.1 8B Instant | `llama-3.1-8b-instant` |
+| Mixtral 8x7B | `mixtral-8x7b-32768` |
+| Gemma 2 9B | `gemma2-9b-it` |
+| DeepSeek R1 70B | `deepseek-r1-distill-llama-70b` |
 
 ## Features
 
@@ -30,13 +40,12 @@ git push -u origin main
 2. Import your GitHub repository
 3. Vercel auto-detects Next.js — click **Deploy**
 
-### 3. Add your API key
+### 3. Add your Groq API key
 
-1. In Vercel dashboard → **Settings** → **Environment Variables**
-2. Add: `ANTHROPIC_API_KEY` = `your_key_here`
-3. Click **Redeploy** (Deployments tab → ⋯ → Redeploy)
-
-Get your API key at [console.anthropic.com](https://console.anthropic.com)
+1. Get your free key at [console.groq.com](https://console.groq.com)
+2. In Vercel dashboard → **Settings** → **Environment Variables**
+3. Add: `GROQ_API_KEY` = `your_key_here`
+4. Click **Redeploy** (Deployments tab → ⋯ → Redeploy)
 
 ## Local Development
 
@@ -46,7 +55,7 @@ npm install
 
 # Create env file
 cp .env.example .env.local
-# Edit .env.local and add your ANTHROPIC_API_KEY
+# Edit .env.local and add your GROQ_API_KEY
 
 # Run dev server
 npm run dev
@@ -73,4 +82,4 @@ prompt-optimizer/
 
 ## Security
 
-Your `ANTHROPIC_API_KEY` is only used server-side in `/pages/api/optimize.js` — it is **never** exposed to the browser.
+Your `GROQ_API_KEY` is only used server-side in `/pages/api/optimize.js` — it is **never** exposed to the browser.
