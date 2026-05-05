@@ -137,7 +137,7 @@ export default function Home() {
     <>
       <Head>
         <title>PromptUp — Powered by Groq</title>
-        <meta name="description" content="AI-powered prompt optimization with ultra-fast Groq inference" />
+        <meta name="description" content="AI-powered prompt(Save tokens-Save time -Better results)" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
