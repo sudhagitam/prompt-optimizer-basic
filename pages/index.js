@@ -160,7 +160,6 @@ export default function Home() {
 
         {/* Step 1 - Input */}
         <motion.div className={styles.card} variants={itemVariants}>
-          <div className={styles.stepNum}>1</div>
           <label style={{ display: "block", marginBottom: "12px", fontSize: "0.9rem", fontWeight: "600" }}>
             What do you want the AI to do?
           </label>
