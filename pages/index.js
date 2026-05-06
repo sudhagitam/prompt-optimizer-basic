@@ -89,7 +89,7 @@ export default function Home() {
     setLoadingMsg(LOADING_MESSAGES[0]);
   };
 
-  const runOptimize = async (refinement = null) => {
+  const runOptimize = async (refinement = null, overrides = {}) => {
     const promptText = refinement ? result : input.trim();
     if (!promptText) return;
     if (loading) return;
@@ -106,10 +106,10 @@ export default function Home() {
         body: JSON.stringify({
           prompt: promptText,
           refinement,
-          model,
-          style: outputStyle,
-          goal: activeGoal,
-          task: activeTask,
+          model: overrides.model ?? model,
+          style: overrides.outputStyle ?? outputStyle,
+          goal: overrides.activeGoal ?? activeGoal,
+          task: overrides.activeTask ?? activeTask,
         }),
       });
 
@@ -133,13 +133,10 @@ export default function Home() {
   };
 
   const handleClear = async () => {
-    // Scroll to top with smooth animation
     const inputCard = document.querySelector(`.${styles.card}`);
     if (inputCard) {
       inputCard.scrollIntoView({ behavior: "smooth", block: "start" });
     }
-
-    // Wait for scroll to start, then clear
     setTimeout(() => {
       setInput("");
       setResult("");
@@ -147,9 +144,6 @@ export default function Home() {
       setCopied(false);
       setLoading(false);
       stopLoadingMessages();
-      
-      // Trigger optimization after clearing
-      runOptimize();
     }, 300);
   };
 
@@ -245,7 +239,10 @@ export default function Home() {
             <div className={styles.advGrid}>
               <div className={styles.advField}>
                 <label>MODEL</label>
-                <select value={model} onChange={(e) => setModel(e.target.value)}>
+                <select value={model} onChange={(e) => {
+                  setModel(e.target.value);
+                  if (result || error) runOptimize(null, { model: e.target.value });
+                }}>
                   {MODELS.map((m) => (
                     <option key={m.value} value={m.value}>{m.label}</option>
                   ))}
@@ -253,7 +250,10 @@ export default function Home() {
               </div>
               <div className={styles.advField}>
                 <label>OUTPUT STYLE</label>
-                <select value={outputStyle} onChange={(e) => setOutputStyle(e.target.value)}>
+                <select value={outputStyle} onChange={(e) => {
+                  setOutputStyle(e.target.value);
+                  if (result || error) runOptimize(null, { outputStyle: e.target.value });
+                }}>
                   {OUTPUT_STYLES.map((s) => (
                     <option key={s.value} value={s.value}>{s.label}</option>
                   ))}
@@ -267,7 +267,10 @@ export default function Home() {
                 <motion.button
                   key={g}
                   className={`${styles.chip} ${activeGoal === g ? styles.chipActive : ""}`}
-                  onClick={() => setActiveGoal(g)}
+                  onClick={() => {
+                    setActiveGoal(g);
+                    if (result || error) runOptimize(null, { activeGoal: g });
+                  }}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
@@ -282,7 +285,10 @@ export default function Home() {
                 <motion.button
                   key={t}
                   className={`${styles.chip} ${activeTask === t ? styles.chipActive : ""}`}
-                  onClick={() => setActiveTask(t)}
+                  onClick={() => {
+                    setActiveTask(t);
+                    if (result || error) runOptimize(null, { activeTask: t });
+                  }}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
