@@ -90,7 +90,7 @@ export default function Home() {
   };
 
   const runOptimize = async (refinement = null, overrides = {}) => {
-    const promptText = refinement ? result : input.trim();
+    const promptText = refinement ? result : input.trim() || result ;
     if (!promptText) return;
     if (loading) return;
 
@@ -146,7 +146,6 @@ export default function Home() {
       stopLoadingMessages();
     }, 300);
   };
-
   const showResult = result || error;
 
   return (
@@ -168,22 +167,18 @@ export default function Home() {
         <motion.header className={styles.header} variants={itemVariants}>
           <h1 className={styles.h1}>PromptUp</h1>
           <p className={styles.subtitle}>Save Tokens-Save Time-Better results</p>
-          <div className={styles.badge}>
-            <Sparkles size={16} />
-            Groq • Llama 3.3 70B
-          </div>
         </motion.header>
 
         {/* Step 1 - Input */}
         <motion.div className={styles.card} variants={itemVariants}>
         <label style={{ display: "block", marginBottom: "5px", fontSize: "0.9rem", fontWeight: "600" }}>
-           Your initial prompt or task description
+           Your message or task description
           </label>
           <textarea
             className={styles.textarea}
             rows={5}
             maxLength={1500}
-            placeholder="type your prompt/task here...(Add specific context, examples, and constraints for better results.)"
+            placeholder="type your message here...(Add specific context, examples, and constraints for better results.)"
             value={input}
             onChange={(e) => setInput(e.target.value)}
             //<strong>✨ Pro Tip</strong>
