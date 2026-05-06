@@ -139,7 +139,7 @@ export default function Home() {
     }
     setTimeout(() => {
       setInput("");
-      //setResult("");
+      setResult("");
       setError("");
       setCopied(false);
       setLoading(false);
