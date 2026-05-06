@@ -139,7 +139,7 @@ export default function Home() {
     }
     setTimeout(() => {
       setInput("");
-      setResult("");
+      //setResult("");
       setError("");
       setCopied(false);
       setLoading(false);
@@ -176,17 +176,24 @@ export default function Home() {
 
         {/* Step 1 - Input */}
         <motion.div className={styles.card} variants={itemVariants}>
-          <label style={{ display: "block", marginBottom: "12px", fontSize: "0.9rem", fontWeight: "600" }}>
-            Your initial prompt or task description
+        <label style={{ display: "block", marginBottom: "5px", fontSize: "0.9rem", fontWeight: "600" }}>
+           Your initial prompt or task description
           </label>
           <textarea
             className={styles.textarea}
             rows={5}
             maxLength={1500}
-            placeholder="type your prompt/task here..."
+            placeholder="type your prompt/task here...(Add specific context, examples, and constraints for better results.)"
             value={input}
             onChange={(e) => setInput(e.target.value)}
+            //<strong>✨ Pro Tip</strong>
+              //         <p>
+                       //Add specific context, examples, and constraints for better results prompts. The more detailed your input,
+                       //the more refined your optimization will be.
+                //       </p>
           />
+
+
           <div className={styles.textareaFooter}>
             <span className={styles.charCount}>{input.length} / 1500</span>
             <div className={styles.buttonGroup}>
@@ -212,93 +219,6 @@ export default function Home() {
             </div>
           </div>
         </motion.div>
-
-        {/* Advanced toggle */}
-        <motion.div className={styles.advRow} variants={itemVariants}>
-          <motion.button
-            className={`${styles.advToggle} ${advOpen ? styles.open : ""}`}
-            onClick={() => setAdvOpen(!advOpen)}
-            aria-expanded={advOpen}
-            whileHover={{ scale: 1.05 }}
-          >
-            <ChevronDown size={16} />
-            Advanced options
-          </motion.button>
-          <span className={styles.advHiddenLabel}>—click to expand</span>
-        </motion.div>
-
-        {/* Advanced panel */}
-        {advOpen && (
-          <motion.div
-            className={styles.advPanel}
-            variants={itemVariants}
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-          >
-            <div className={styles.advGrid}>
-              <div className={styles.advField}>
-                <label>MODEL</label>
-                <select value={model} onChange={(e) => {
-                  setModel(e.target.value);
-                  if (result || error) runOptimize(null, { model: e.target.value });
-                }}>
-                  {MODELS.map((m) => (
-                    <option key={m.value} value={m.value}>{m.label}</option>
-                  ))}
-                </select>
-              </div>
-              <div className={styles.advField}>
-                <label>OUTPUT STYLE</label>
-                <select value={outputStyle} onChange={(e) => {
-                  setOutputStyle(e.target.value);
-                  if (result || error) runOptimize(null, { outputStyle: e.target.value });
-                }}>
-                  {OUTPUT_STYLES.map((s) => (
-                    <option key={s.value} value={s.value}>{s.label}</option>
-                  ))}
-                </select>
-              </div>
-            </div>
-
-            <div className={styles.chipGroupLabel}>OPTIMIZATION GOAL</div>
-            <div className={styles.chips}>
-              {GOALS.map((g) => (
-                <motion.button
-                  key={g}
-                  className={`${styles.chip} ${activeGoal === g ? styles.chipActive : ""}`}
-                  onClick={() => {
-                    setActiveGoal(g);
-                    if (result || error) runOptimize(null, { activeGoal: g });
-                  }}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  {g}
-                </motion.button>
-              ))}
-            </div>
-
-            <div className={styles.chipGroupLabel}>TASK TYPE</div>
-            <div className={styles.chips}>
-              {TASKS.map((t) => (
-                <motion.button
-                  key={t}
-                  className={`${styles.chip} ${activeTask === t ? styles.chipActive : ""}`}
-                  onClick={() => {
-                    setActiveTask(t);
-                    if (result || error) runOptimize(null, { activeTask: t });
-                  }}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  {t}
-                </motion.button>
-              ))}
-            </div>
-            <p className={styles.chipsNote}>Select one per section</p>
-          </motion.div>
-        )}
 
         {/* Connector */}
         {(loading || showResult) && (
@@ -371,14 +291,96 @@ export default function Home() {
           </motion.div>
         )}
 
-        {/* Insight Box */}
-        <motion.div className={styles.insightBox} variants={itemVariants}>
-          <strong>✨ Pro Tip</strong>
-          <p>
-            Add specific context, examples, and constraints to your prompts. The more detailed your input,
-            the more refined your optimization will be.
-          </p>
+{/* Advanced toggle — pinned at the bottom */}
+        <motion.div className={styles.advRow} variants={itemVariants}>
+          <motion.button
+            className={`${styles.advToggle} ${advOpen ? styles.open : ""}`}
+            onClick={() => setAdvOpen(!advOpen)}
+            aria-expanded={advOpen}
+            whileHover={{ scale: 1.05 }}
+            style={{ transform: advOpen ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 0.3s ease" }}
+          >
+            <ChevronDown size={16} />
+            Advanced options
+          </motion.button>
+          <span className={styles.advHiddenLabel}>—click to expand</span>
         </motion.div>
+
+
+        {/* Advanced panel — opens upward from bottom */}
+        {advOpen && (
+          <motion.div
+            className={styles.advPanel}
+            variants={itemVariants}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 10 }}
+          >
+            <div className={styles.advGrid}>
+              <div className={styles.advField}>
+                <label>MODEL</label>
+                <select value={model} onChange={(e) => {
+                  setModel(e.target.value);
+                  if (result || error) runOptimize(null, { model: e.target.value });
+                }}>
+                  {MODELS.map((m) => (
+                    <option key={m.value} value={m.value}>{m.label}</option>
+                  ))}
+                </select>
+              </div>
+              <div className={styles.advField}>
+                <label>OUTPUT STYLE</label>
+                <select value={outputStyle} onChange={(e) => {
+                  setOutputStyle(e.target.value);
+                  if (result || error) runOptimize(null, { outputStyle: e.target.value });
+                }}>
+                  {OUTPUT_STYLES.map((s) => (
+                    <option key={s.value} value={s.value}>{s.label}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            <div className={styles.chipGroupLabel}>OPTIMIZATION GOAL</div>
+            <div className={styles.chips}>
+              {GOALS.map((g) => (
+                <motion.button
+                  key={g}
+                  className={`${styles.chip} ${activeGoal === g ? styles.chipActive : ""}`}
+                  onClick={() => {
+                    setActiveGoal(g);
+                    if (result || error) runOptimize(null, { activeGoal: g });
+                  }}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  {g}
+                </motion.button>
+              ))}
+            </div>
+
+            <div className={styles.chipGroupLabel}>TASK TYPE</div>
+            <div className={styles.chips}>
+              {TASKS.map((t) => (
+                <motion.button
+                  key={t}
+                  className={`${styles.chip} ${activeTask === t ? styles.chipActive : ""}`}
+                  onClick={() => {
+                    setActiveTask(t);
+                    if (result || error) runOptimize(null, { activeTask: t });
+                  }}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  {t}
+                </motion.button>
+              ))}
+            </div>
+            <p className={styles.chipsNote}>Select one per section</p>
+          </motion.div>
+        )}
+
+
       </motion.div>
     </>
   );
